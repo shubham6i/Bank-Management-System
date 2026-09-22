@@ -1,6 +1,6 @@
 # Bank Management System
 
-A simple Bank Management System built using **Python, Flask, MySQL, HTML, CSS, and JavaScript**.
+A simple Bank Management System built using **Python, MySQL, HTML, CSS, and JavaScript**.
 
 ## Features
 
