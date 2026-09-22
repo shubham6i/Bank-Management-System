@@ -18,7 +18,6 @@ A simple Bank Management System built using **Python, Flask, MySQL, HTML, CSS, a
 ## Technologies Used
 
 - Python
-- Flask
 - MySQL
 - HTML
 - CSS
