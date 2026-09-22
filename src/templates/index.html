@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apex Bank Management System - Modern, secure, and intuitive account management dashboard.">
+    <title>Apex Bank | Management Portal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Background Ambient Glows -->
+    <div class="glow-sphere glow-1"></div>
+    <div class="glow-sphere glow-2"></div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        
+        <!-- Top Navigation -->
+        <header class="top-navbar">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>Apex Bank</h1>
+                    <span class="brand-badge">Enterprise Management</span>
+                </div>
+            </div>
+
+            <div class="nav-center">
+                <div class="search-wrapper">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search account by Name, ID, or Email..." autocomplete="off">
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <div class="status-indicator">
+                    <span class="status-dot pulse"></span>
+                    <span class="status-text">MySQL Active</span>
+                </div>
+                <button class="btn btn-primary" id="btnOpenCreateModal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>New Account</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Metrics Section -->
+        <section class="metrics-grid">
+            <div class="metric-card card-emerald">
+                <div class="metric-header">
+                    <span class="metric-title">Total Vault Balance</span>
+                    <div class="metric-icon-box">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value" id="kpiTotalBalance">$0.00</div>
+                <div class="metric-footer">
+                    <span class="trend-text positive">● Live Liquidity</span>
+                    <span class="trend-sub">All active accounts</span>
+                </div>
+            </div>
+
+            <div class="metric-card card-cyan">
+                <div class="metric-header">
+                    <span class="metric-title">Registered Accounts</span>
+                    <div class="metric-icon-box">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value" id="kpiTotalAccounts">0</div>
+                <div class="metric-footer">
+                    <span class="trend-text positive">● Total Customers</span>
+                    <span class="trend-sub">On-chain records</span>
+                </div>
+            </div>
+
+            <div class="metric-card card-indigo">
+                <div class="metric-header">
+                    <span class="metric-title">Average Balance</span>
+                    <div class="metric-icon-box">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value" id="kpiAvgBalance">$0.00</div>
+                <div class="metric-footer">
+                    <span class="trend-text neutral">● Mean Holding</span>
+                    <span class="trend-sub">Per client average</span>
+                </div>
+            </div>
+
+            <div class="metric-card card-gold">
+                <div class="metric-header">
+                    <span class="metric-title">Premier Tier Holder</span>
+                    <div class="metric-icon-box">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value small-text" id="kpiTopAccount">None</div>
+                <div class="metric-footer">
+                    <span class="trend-text gold-text" id="kpiTopAmount">$0.00</span>
+                    <span class="trend-sub">Highest balance</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Operation Bar -->
+        <section class="quick-actions-bar">
+            <div class="bar-heading">
+                <h3>Quick Actions</h3>
+                <p>Instant banking operations and account controls</p>
+            </div>
+            <div class="action-buttons-group">
+                <button class="action-tile tile-create" id="btnTileCreate">
+                    <div class="tile-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" y1="8" x2="19" y2="14"></line>
+                            <line x1="22" y1="11" x2="16" y2="11"></line>
+                        </svg>
+                    </div>
+                    <div class="tile-meta">
+                        <strong>Open Account</strong>
+                        <span>Register customer</span>
+                    </div>
+                </button>
+
+                <button class="action-tile tile-deposit" id="btnTileDeposit">
+                    <div class="tile-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tile-meta">
+                        <strong>Deposit Funds</strong>
+                        <span>Credit an account</span>
+                    </div>
+                </button>
+
+                <button class="action-tile tile-withdraw" id="btnTileWithdraw">
+                    <div class="tile-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                            <polyline points="5 12 12 5 19 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tile-meta">
+                        <strong>Withdraw Funds</strong>
+                        <span>Debit balance</span>
+                    </div>
+                </button>
+
+                <button class="action-tile tile-lookup" id="btnTileLookup">
+                    <div class="tile-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </div>
+                    <div class="tile-meta">
+                        <strong>Check Balance</strong>
+                        <span>Lookup account card</span>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Accounts Ledger Table Section -->
+        <main class="ledger-section">
+            <div class="ledger-header">
+                <div class="ledger-title-wrap">
+                    <h2>Accounts Ledger</h2>
+                    <span class="badge-count" id="ledgerCountBadge">0 Accounts</span>
+                </div>
+                <div class="ledger-controls">
+                    <button class="btn btn-secondary btn-icon-only" id="btnRefresh" title="Refresh Table">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="apex-table">
+                    <thead>
+                        <tr>
+                            <th>Account ID</th>
+                            <th>Customer Name</th>
+                            <th>Email Address</th>
+                            <th>Current Balance</th>
+                            <th>Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountsTableBody">
+                        <!-- Loaded dynamically via JavaScript -->
+                    </tbody>
+                </table>
+
+                <!-- Empty State View -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                            <line x1="2" y1="10" x2="22" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3>No Accounts Found</h3>
+                    <p id="emptyStateMsg">There are currently no customer accounts in the database.</p>
+                    <button class="btn btn-primary" id="btnEmptyCreate">Create First Account</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>© 2026 Apex Bank Management System • Powered by Python & MySQL</p>
+        </footer>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODALS -->
+    <!-- ========================================================= -->
+
+    <!-- Modal 1: Create Account -->
+    <div class="modal-backdrop" id="modalCreate">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-box">
+                    <div class="icon-circle icon-circle-cyan">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Create New Account</h3>
+                        <p>Open an account with customer information</p>
+                    </div>
+                </div>
+                <button class="modal-close" data-close="modalCreate">&times;</button>
+            </div>
+            <form id="formCreateAccount" class="modal-form">
+                <div class="form-group">
+                    <label for="createName">First & Last Name <span class="required">*</span></label>
+                    <input type="text" id="createName" placeholder="e.g. Alexander Vance" required>
+                </div>
+                <div class="form-group">
+                    <label for="createEmail">Email Address <span class="required">*</span></label>
+                    <input type="email" id="createEmail" placeholder="e.g. alex@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="createBalance">Opening Balance ($) <span class="required">*</span></label>
+                    <div class="input-currency-wrap">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="createBalance" step="0.01" min="0" placeholder="0.00" value="100.00" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost" data-close="modalCreate">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmitCreate">
+                        <span>Open Account</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 2: Deposit Funds -->
+    <div class="modal-backdrop" id="modalDeposit">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-box">
+                    <div class="icon-circle icon-circle-emerald">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Deposit Funds</h3>
+                        <p>Credit funds to a target bank account</p>
+                    </div>
+                </div>
+                <button class="modal-close" data-close="modalDeposit">&times;</button>
+            </div>
+            <form id="formDeposit" class="modal-form">
+                <div class="form-group">
+                    <label for="depositAccountId">Account Selection <span class="required">*</span></label>
+                    <select id="depositAccountId" required>
+                        <option value="">-- Choose Account --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="depositAmount">Deposit Amount ($) <span class="required">*</span></label>
+                    <div class="input-currency-wrap">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="depositAmount" step="0.01" min="0.01" placeholder="50.00" required>
+                    </div>
+                </div>
+                <div class="chip-group">
+                    <button type="button" class="amount-chip" data-target="depositAmount" data-amount="50">+$50</button>
+                    <button type="button" class="amount-chip" data-target="depositAmount" data-amount="100">+$100</button>
+                    <button type="button" class="amount-chip" data-target="depositAmount" data-amount="500">+$500</button>
+                    <button type="button" class="amount-chip" data-target="depositAmount" data-amount="1000">+$1,000</button>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost" data-close="modalDeposit">Cancel</button>
+                    <button type="submit" class="btn btn-emerald" id="btnSubmitDeposit">
+                        <span>Confirm Deposit</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 3: Withdraw Funds -->
+    <div class="modal-backdrop" id="modalWithdraw">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-box">
+                    <div class="icon-circle icon-circle-crimson">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                            <polyline points="5 12 12 5 19 12"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Withdraw Funds</h3>
+                        <p>Debit funds from an existing account</p>
+                    </div>
+                </div>
+                <button class="modal-close" data-close="modalWithdraw">&times;</button>
+            </div>
+            <form id="formWithdraw" class="modal-form">
+                <div class="form-group">
+                    <label for="withdrawAccountId">Account Selection <span class="required">*</span></label>
+                    <select id="withdrawAccountId" required>
+                        <option value="">-- Choose Account --</option>
+                    </select>
+                </div>
+                <div class="account-preview-box" id="withdrawAccountPreview" style="display: none;">
+                    <span class="preview-label">Available Balance:</span>
+                    <strong class="preview-balance" id="withdrawAvailBalance">$0.00</strong>
+                </div>
+                <div class="form-group">
+                    <label for="withdrawAmount">Withdrawal Amount ($) <span class="required">*</span></label>
+                    <div class="input-currency-wrap">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="withdrawAmount" step="0.01" min="0.01" placeholder="25.00" required>
+                    </div>
+                </div>
+                <div class="chip-group">
+                    <button type="button" class="amount-chip" data-target="withdrawAmount" data-amount="20">-$20</button>
+                    <button type="button" class="amount-chip" data-target="withdrawAmount" data-amount="50">-$50</button>
+                    <button type="button" class="amount-chip" data-target="withdrawAmount" data-amount="100">-$100</button>
+                    <button type="button" class="amount-chip" data-target="withdrawAmount" data-amount="500">-$500</button>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost" data-close="modalWithdraw">Cancel</button>
+                    <button type="submit" class="btn btn-crimson" id="btnSubmitWithdraw">
+                        <span>Confirm Withdrawal</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 4: Account Card / Balance Inspection -->
+    <div class="modal-backdrop" id="modalCard">
+        <div class="modal-card modal-card-wide">
+            <div class="modal-header">
+                <div class="modal-title-box">
+                    <div class="icon-circle icon-circle-indigo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Account Details & Balance</h3>
+                        <p>Customer overview and digital debit card</p>
+                    </div>
+                </div>
+                <button class="modal-close" data-close="modalCard">&times;</button>
+            </div>
+            
+            <div class="card-modal-content">
+                <!-- Virtual Bank Debit Card Preview -->
+                <div class="virtual-card">
+                    <div class="vcard-top">
+                        <span class="vcard-chip"></span>
+                        <span class="vcard-brand">APEX PREMIER</span>
+                    </div>
+                    <div class="vcard-number" id="cardMockNumber">•••• •••• •••• 0001</div>
+                    <div class="vcard-bottom">
+                        <div class="vcard-holder">
+                            <span class="vcard-label">ACCOUNT HOLDER</span>
+                            <span class="vcard-name" id="cardHolderName">Customer Name</span>
+                        </div>
+                        <div class="vcard-balance">
+                            <span class="vcard-label">AVAILABLE BALANCE</span>
+                            <span class="vcard-val" id="cardHolderBalance">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Metadata List -->
+                <div class="details-list">
+                    <div class="detail-item">
+                        <span class="detail-label">Account Identifier</span>
+                        <strong class="detail-val" id="detailId">#--</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Full Name</span>
+                        <strong class="detail-val" id="detailName">--</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Registered Email</span>
+                        <strong class="detail-val" id="detailEmail">--</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Account Status</span>
+                        <span class="badge-active">● Active / Verified</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions modal-card-actions">
+                <button type="button" class="btn btn-secondary" id="btnCardDeposit">
+                    <span>Deposit to Account</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="btnCardWithdraw">
+                    <span>Withdraw from Account</span>
+                </button>
+                <button type="button" class="btn btn-ghost" data-close="modalCard">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Script File -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
